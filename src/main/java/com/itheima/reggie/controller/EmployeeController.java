@@ -56,5 +56,16 @@ public class EmployeeController {
         return R.success("退出成功");
     }
 
+    //新增员工
+    @PostMapping
+    public R<String> save(HttpServletRequest request,@RequestBody Employee employee){
+       //log.info(employee.toString());
+       employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+       employee.setCreateTime(LocalDateTime.now());
+       employee.setUpdateTime(LocalDateTime.now());
+       employee.setCreateUser((Long) request.getSession().getAttribute("employee"));
+       employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
+
+       employeeService.save(employee);
 
 }
