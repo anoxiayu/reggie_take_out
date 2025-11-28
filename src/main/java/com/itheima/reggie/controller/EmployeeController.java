@@ -67,5 +67,6 @@ public class EmployeeController {
        employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
 
        employeeService.save(employee);
-
+       return R.success("新增员工成功");
+    }
 }
