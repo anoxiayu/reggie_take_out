@@ -2,6 +2,7 @@ package com.itheima.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.itheima.reggie.common.BaseContext;
 import com.itheima.reggie.common.R;
 import com.itheima.reggie.entity.Employee;
 import com.itheima.reggie.service.EmployeeService;
@@ -62,10 +63,10 @@ public class EmployeeController {
     public R<String> save(HttpServletRequest request,@RequestBody Employee employee){
        //log.info(employee.toString());
        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-       employee.setCreateTime(LocalDateTime.now());
-       employee.setUpdateTime(LocalDateTime.now());
-       employee.setCreateUser((Long) request.getSession().getAttribute("employee"));
-       employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
+//       employee.setCreateTime(LocalDateTime.now());
+//       employee.setUpdateTime(LocalDateTime.now());
+//       employee.setCreateUser((Long) request.getSession().getAttribute("employee"));
+//       employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
        employeeService.save(employee);
        return R.success("新增员工成功");
     }
@@ -96,7 +97,15 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
         log.info(employee.toString());
 
+
+        long id = Thread.currentThread().getId();
+        log.info("线程id为:{}",id);
+
+
         Long empId = (Long) request.getSession().getAttribute("employee");
+        BaseContext.setCurrentId(empId);
+
+
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateUser(empId);
         employeeService.updateById(employee);
