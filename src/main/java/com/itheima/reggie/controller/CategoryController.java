@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -61,4 +62,13 @@ public class CategoryController {
         return R.success("员工信息修改成功");
     }
 
+    @GetMapping("/list")
+    public R<List<Category>> list(Category category){
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(category.getType() != null,Category::getType,category.getType());
+        queryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+
+        List<Category> categoryList = categoryService.list(queryWrapper);
+        return R.success(categoryList);
+    }
 }
