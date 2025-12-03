@@ -81,12 +81,18 @@ public class SetmealController {
 
         pageDto.setRecords(list);
 
-        return R.success(pageInfo);
+        return R.success(pageDto);
     }
 
     @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids){
         setmealService.deleteWithDish(ids);
         return R.success("删除套餐成功");
+    }
+
+    @PostMapping({"/status/{status}"})
+    public R<String> dishStatus(@PathVariable("status") Integer status,@RequestParam List<Long> ids){
+        setmealService.updateStatus(status,ids);
+        return R.success("修改菜品状态成功");
     }
 }

@@ -2,6 +2,7 @@ package com.itheima.reggie.service.impl;
 
 import com.alibaba.druid.filter.logging.Log4j2FilterMBean;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.reggie.dto.DishDto;
 import com.itheima.reggie.entity.Dish;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
     @Autowired
     private DishFlavorService dishFlavorService;
+    @Autowired
+    private DishService dishService;
 
     @Transactional
     public void saveWithFlavor(DishDto dishDto) {
@@ -78,6 +81,22 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         }).collect(Collectors.toList());
         dishFlavorService.saveBatch(flavors);
 
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(Integer status, List<Long> ids) {
+        // 构造更新条件
+        LambdaUpdateWrapper<Dish> updateWrapper = new LambdaUpdateWrapper<>();
+
+        // 1. 设置要筛选的 ID 范围 (WHERE id IN (...))
+        updateWrapper.in(Dish::getId, ids);
+
+        // 2. 设置要更新的字段值 (SET status = status)
+        updateWrapper.set(Dish::getStatus, status);
+
+        // 3. 执行更新
+        dishService.update(updateWrapper);
     }
 
 

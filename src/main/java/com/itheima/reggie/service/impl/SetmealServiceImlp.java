@@ -1,6 +1,7 @@
 package com.itheima.reggie.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.reggie.common.CustomException;
 import com.itheima.reggie.dto.SetmealDto;
@@ -24,7 +25,12 @@ import java.util.stream.Collectors;
 public class SetmealServiceImlp extends ServiceImpl<SetmealMapper, Setmeal> implements SetmealService {
 
     @Autowired
+    private SetmealMapper setmealMapper;
+
+    @Autowired
     private SetmealDishService setmealDishService;
+    @Autowired
+    private SetmealService setmealService;
 
     @Override
     @Transactional
@@ -58,5 +64,20 @@ public class SetmealServiceImlp extends ServiceImpl<SetmealMapper, Setmeal> impl
         queryWrapper2.in(SetmealDish::getSetmealId, ids);
         setmealDishService.remove(queryWrapper2);
 
+    }
+
+    @Override
+    public void updateStatus(Integer status, List<Long> ids) {
+        // 构造更新条件
+        LambdaUpdateWrapper<Setmeal> updateWrapper = new LambdaUpdateWrapper<>();
+
+        // 1. 设置要筛选的 ID 范围 (WHERE id IN (...))
+        updateWrapper.in(Setmeal::getId, ids);
+
+        // 2. 设置要更新的字段值 (SET status = status)
+        updateWrapper.set(Setmeal::getStatus, status);
+
+        // 3. 执行更新
+        setmealService.update(updateWrapper);
     }
 }
