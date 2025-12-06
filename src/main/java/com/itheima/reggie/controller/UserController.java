@@ -59,7 +59,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public R<User> login(@RequestBody Map map, HttpSession session){
+    public R<User> login(@RequestBody Map<String, String> map, HttpSession session){
         log.info(map.toString());
 
         //获取手机号

@@ -8,9 +8,7 @@ import com.itheima.reggie.entity.Employee;
 import com.itheima.reggie.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,7 +70,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/page")
-    public R<Page> page(int page,int pageSize,String name){
+    public R<Page<Employee>> page(int page,int pageSize,String name){
         log.info("page:{},pageSize:{},name:{}",page,pageSize,name);
 
         //分页构造器
@@ -80,7 +78,7 @@ public class EmployeeController {
         //添加过滤条件
         //添加排序条件
         //执行查询
-        Page pageInfo = new Page(page,pageSize);
+        Page<Employee> pageInfo = new Page<>(page,pageSize);
 
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
 

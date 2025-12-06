@@ -55,6 +55,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
 
         //查询用户数据
         User user = userService.getById(userId);
+        if(user == null){
+            throw new CustomException("用户信息不存在，不能下单");
+        }
 
         //查询地址数据
         Long addressBookId = orders.getAddressBookId();
@@ -89,7 +92,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
         orders.setAmount(new BigDecimal(amount.get()));//总金额
         orders.setUserId(userId);
         orders.setNumber(String.valueOf(orderId));
-        orders.setUserName(user.getName());
+        orders.setUserName(user.getName() != null ? user.getName() : user.getPhone());
         orders.setConsignee(addressBook.getConsignee());
         orders.setPhone(addressBook.getPhone());
         orders.setAddress((addressBook.getProvinceName() == null ? "" : addressBook.getProvinceName())

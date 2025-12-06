@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.reggie.common.CustomException;
 import com.itheima.reggie.dto.SetmealDto;
-import com.itheima.reggie.entity.Dish;
-import com.itheima.reggie.entity.DishFlavor;
 import com.itheima.reggie.entity.Setmeal;
 import com.itheima.reggie.entity.SetmealDish;
 import com.itheima.reggie.mapper.SetmealMapper;
@@ -23,9 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class SetmealServiceImlp extends ServiceImpl<SetmealMapper, Setmeal> implements SetmealService {
-
-    @Autowired
-    private SetmealMapper setmealMapper;
 
     @Autowired
     private SetmealDishService setmealDishService;

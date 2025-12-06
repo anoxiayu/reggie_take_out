@@ -13,7 +13,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -32,7 +31,11 @@ public class CommonController {
         String originalFilename = file.getOriginalFilename();
 
         //使用uuid重新生成文件名称，防止文件名称重复造成的文件覆盖
-        String fileName = UUID.randomUUID().toString()+"."+originalFilename.substring(originalFilename.lastIndexOf("."));
+        String suffix = "";
+        if (originalFilename != null && originalFilename.contains(".")) {
+            suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+        String fileName = UUID.randomUUID().toString() + suffix;
 
         File dir = new File(basePath);
         if(!dir.exists()){

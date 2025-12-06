@@ -3,7 +3,6 @@ package com.itheima.reggie.utils;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
-import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 
@@ -30,7 +29,7 @@ public class SMSUtils {
 		request.setTemplateCode(templateCode);
 		request.setTemplateParam("{\"code\":\""+param+"\"}");
 		try {
-			SendSmsResponse response = client.getAcsResponse(request);
+			client.getAcsResponse(request);
 			System.out.println("短信发送成功");
 		}catch (ClientException e) {
 			e.printStackTrace();

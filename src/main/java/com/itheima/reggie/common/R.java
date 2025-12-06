@@ -13,7 +13,7 @@ public class R<T> {
 
     private T data; //数据
 
-    private Map map = new HashMap(); //动态数据
+    private Map<String, Object> map = new HashMap<>(); //动态数据
 
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
@@ -23,7 +23,7 @@ public class R<T> {
     }
 
     public static <T> R<T> error(String msg) {
-        R r = new R();
+        R<T> r = new R<>();
         r.msg = msg;
         r.code = 0;
         return r;
