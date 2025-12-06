@@ -10,7 +10,6 @@ import com.itheima.reggie.entity.SetmealDish;
 import com.itheima.reggie.mapper.SetmealMapper;
 import com.itheima.reggie.service.SetmealDishService;
 import com.itheima.reggie.service.SetmealService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class SetmealServiceImlp extends ServiceImpl<SetmealMapper, Setmeal> implements SetmealService {
 
     @Autowired
